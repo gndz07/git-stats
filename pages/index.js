@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { useState } from 'react'
+import RepoCard from '../components/RepoCard'
 
 export async function getStaticProps() {
   const res = await fetch('https://api.github.com/orgs/traefik/repos')
@@ -44,14 +45,7 @@ export default function Home({ repos }) {
           <h2 className={styles.subtitle}>Select a repository</h2>
           <input className={styles.search_bar} placeholder="Search..." onChange={handleSearch} />
           {displayedRepos.map((repo) => (
-            <div className={styles.card}>
-              <img src={repo.owner.avatar_url} className={styles.avatar} />
-              <div className={styles.card_body}>
-                <h3>{repo.full_name}</h3>
-                <p>{repo.description}</p>
-              </div>
-              <p className={styles.select_text}>select</p>
-            </div>
+            <RepoCard repo={repo} />
           ))}
         </div>
       </main>
