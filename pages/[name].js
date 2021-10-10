@@ -3,8 +3,9 @@ import containerStyles from '../styles/Container.module.css'
 import styles from '../styles/RepoPage.module.css'
 import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import RepoHeader from '../components/RepoHeader'
+import { range } from '../libs/range'
+import LineGraph from '../components/LineGraph'
 
 export async function getStaticPaths() {
     return {
@@ -52,10 +53,25 @@ export async function getStaticProps({ params }) {
 
 export default function RepoStatPage ({ repoData, issues}) {
     const [displayedData, setDisplayedData] = useState(repoData);
-    const [issuesData, setIssuesData] = useState(issues);
+    const [graphData, setGraphData] = useState([]);
+    const startYear = useMemo(() => {
+        if (repoData) {
+            return repoData?.created_at.split("-").slice(0,1)
+        }
+    }, [repoData])
+
+    const todayDate = new Date();
+    const thisYear = Number(todayDate.getFullYear());
+    //set a base array of objects to keep the data
+    let baseData = useMemo(() => {
+        const years = range(Number(startYear), thisYear, 1);
+        return years.map((year) => ({ year, issues: 0 }))
+    }, [startYear]);
 
     useEffect(() => {
-        setDisplayedData(repoData);
+        if (repoData) {
+            setDisplayedData(repoData);
+        }
     }, [repoData]);
  
     const filteredIssues = useMemo(() => {
@@ -67,12 +83,39 @@ export default function RepoStatPage ({ repoData, issues}) {
         }
     }, [issues]);
 
-    useEffect(() => {
+    const issuesData = useMemo(() => {
         if (filteredIssues) {
-            const data = filteredIssues.map((issue, index) => ({ date: issue.created_at.split("T").slice(0,1), issues: index+1 }));
-            setIssuesData(data);
+            //get only the year of each issues
+            const issuesPerYear = filteredIssues.map((issue) => ({ year: issue.created_at.split("-").slice(0,1)[0] }));
+            //group and count issues by year
+            const issuesCounts = issuesPerYear.reduce((p, c) => {
+                const year = c.year;
+                if (!p.hasOwnProperty(year)) {
+                    p[year] = 0;
+                }
+                p[year]++;
+                return p;
+              }, {});
+            const issuesCountsExtended = Object.keys(issuesCounts).map(year => {
+                return {year, count: issuesCounts[year]};
+            });
+            //merge into baseData
+            baseData.forEach((data) => {
+                issuesCountsExtended.forEach((issue) => {
+                    if (data.year == issue.year) {
+                        data.issues = issue.count
+                    }
+                })
+            })
+            return baseData
         }
     }, [filteredIssues]);
+
+    useEffect(() => {
+        if (issuesData) {
+            setGraphData(issuesData)
+        }
+    }, [issuesData])
 
     return (
         <div className={containerStyles.container}>
@@ -95,22 +138,7 @@ export default function RepoStatPage ({ repoData, issues}) {
                 </div>
 
                 <div className={styles.graph_container}>
-                    <ResponsiveContainer width='100%' height='100%'>
-                        <LineChart
-                            data={issuesData}
-                            margin={{
-                            top: 20,
-                            right: 30,
-                            left: -10,
-                            bottom: 5,
-                            }}
-                        >
-                            <XAxis dataKey="date" tick={false} tickLine={false} />
-                            <YAxis tick={false} tickLine={false} />
-                            <Tooltip />
-                            <Line type="monotone" dataKey="issues" stroke="#C2DEFB" dot={false} />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <LineGraph data={graphData} startYear={startYear} thisYear={thisYear} />
                 </div>
             </main>
 
