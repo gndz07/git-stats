@@ -16,6 +16,7 @@ export default function LineGraph({ data, startYear, thisYear }) {
                 <YAxis tick={false} tickLine={false} />
                 <Tooltip />
                 <Line type="monotone" dataKey="issues" stroke="#C2DEFB" dot={false} />
+                <Line type="monotone" dataKey="forks" stroke="#FFCCB6" dot={false} />
             </LineChart>
         </ResponsiveContainer>
     )
