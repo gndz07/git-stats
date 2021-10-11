@@ -6,6 +6,7 @@ import Link from "next/link";
 import RepoHeader from "../components/RepoHeader";
 import LineGraph from "../components/LineGraph";
 import { OptionButton } from "../components/OptionButton";
+import en from "../lang/en";
 
 export async function getStaticPaths() {
     return {
@@ -72,17 +73,17 @@ export async function getStaticProps({ params }) {
 
     const dataOptions = [
         {
-            title: "Show all",
+            title: en.repo_page.show_all,
             optionName: "all",
             bgColor: "#eaeaea"
         },
         {
-            title: "Open issues",
+            title: en.repo_page.open_issues,
             optionName: "issues",
             bgColor: "#C2DEFB"
         },
         {
-            title: "Forks",
+            title: en.repo_page.forks,
             optionName: "forks",
             bgColor: "#FFCCB6"
         },
@@ -93,7 +94,7 @@ export async function getStaticProps({ params }) {
         <Head>
             <title>{displayedData?.full_name}</title>
             <meta
-            name="Github Indicators Explorer"
+            name={en.title}
             content={`${displayedData?.full_name} indicator`}
             />
             <link rel="icon" href="/favicon.ico" />
@@ -101,7 +102,7 @@ export async function getStaticProps({ params }) {
 
         <main className={styles.main}>
             <Link href="/">
-                <p className={styles.choose_repo}>Choose another repository</p>
+                <p className={styles.choose_repo}>{en.repo_page.choose_other_repo}</p>
             </Link>
 
             <RepoHeader data={displayedData} />

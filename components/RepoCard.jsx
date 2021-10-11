@@ -1,5 +1,6 @@
 import styles from '../styles/RepoCard.module.css'
 import Link from 'next/link'
+import en from '../lang/en';
 
 export default function RepoCard({ repo, key }) {
     return (
@@ -10,7 +11,7 @@ export default function RepoCard({ repo, key }) {
                 <h3>{repo.full_name}</h3>
                 <p>{repo.description}</p>
                 </div>
-                <p className={styles.select_text}>select</p>
+                <p className={styles.select_text}>{en.select}</p>
             </div>
         </Link>
     )

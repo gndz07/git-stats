@@ -3,6 +3,7 @@ import containerStyles from "../styles/Container.module.css";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import RepoCard from "../components/RepoCard";
+import en from "../lang/en";
 
 export async function getStaticProps() {
   let myHeaders = new Headers();
@@ -40,27 +41,24 @@ export default function Home({ repos }) {
   return (
     <div className={containerStyles.container}>
       <Head>
-        <title>Github Indicators Explorer</title>
+        <title>{en.title}</title>
         <meta
-          name="Github Indicators Explorer"
+          name={en.title}
           content="Github repository indicator"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={containerStyles.main}>
-        <h1 className={styles.title}>Github Indicators Explorer</h1>
+        <h1 className={styles.title}>{en.title}</h1>
 
-        <p className={styles.description}>
-          GitHub Indicators Explorer can help you get key metrics about your
-          favourite github repositories.
-        </p>
+        <p className={styles.description}>{en.description}</p>
 
         <div className={styles.grid}>
-          <h2 className={styles.subtitle}>Select a repository</h2>
+          <h2 className={styles.subtitle}>{en.select_repo}</h2>
           <input
             className={styles.search_bar}
-            placeholder="Search..."
+            placeholder={en.search}
             onChange={handleSearch}
           />
           {displayedRepos
