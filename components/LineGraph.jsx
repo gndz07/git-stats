@@ -26,19 +26,13 @@ export default function LineGraph({ repoData, issues, forks, activeGraph }) {
 
     const issuesData = useMemo(() => {
         if (issues) {
-        const filteredIssues = issues
-            .filter((issue) => {
-            return issue.state === "open";
-            })
-            .reverse();
-
-        return formatDataByYear(filteredIssues);
+            return formatDataByYear(issues);
         }
     }, [issues]);
 
     const forksData = useMemo(() => {
         if (forks) {
-        return formatDataByYear(forks.reverse());
+            return formatDataByYear(forks);
         }
     }, [forks]);
 

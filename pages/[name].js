@@ -34,7 +34,7 @@ export async function getStaticProps({ params }) {
 
         
     const issuesRes = await fetch(
-        `https://api.github.com/repos/${process.env.REPO_USERNAME}/${params.name}/issues?per_page=100`,
+        `https://api.github.com/repos/${process.env.REPO_USERNAME}/${params.name}/issues?state=open&per_page=100`,
         { headers: myHeaders }
     );
     const issues = await issuesRes.json();
@@ -70,6 +70,24 @@ export async function getStaticProps({ params }) {
         }
     }, [repoData]);
 
+    const dataOptions = [
+        {
+            title: "Show all",
+            optionName: "all",
+            bgColor: "#eaeaea"
+        },
+        {
+            title: "Open issues",
+            optionName: "issues",
+            bgColor: "#C2DEFB"
+        },
+        {
+            title: "Forks",
+            optionName: "forks",
+            bgColor: "#FFCCB6"
+        },
+    ];
+
     return (
         <div className={containerStyles.container}>
         <Head>
@@ -89,27 +107,16 @@ export async function getStaticProps({ params }) {
             <RepoHeader data={displayedData} />
 
             <div className={styles.option_container}>
-                <OptionButton 
-                    title="Show all"
-                    optionName="all"
-                    bgColor="#eaeaea"
-                    state={activeGraph}
-                    setState={setActiveGraph}
-                />
-                <OptionButton 
-                    title="Open issues"
-                    optionName="issues"
-                    bgColor="#C2DEFB"
-                    state={activeGraph}
-                    setState={setActiveGraph}
-                />
-                <OptionButton 
-                    title="Forks"
-                    optionName="forks"
-                    bgColor="#FFCCB6"
-                    state={activeGraph}
-                    setState={setActiveGraph}
-                />
+                {dataOptions.map((option, index) => (
+                    <OptionButton 
+                        title={option.title}
+                        optionName={option.optionName}
+                        bgColor={option.bgColor}
+                        state={activeGraph}
+                        setState={setActiveGraph}
+                        key={index}
+                    />
+                ))}
             </div>
 
             <div className={styles.graph_container}>

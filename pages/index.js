@@ -64,7 +64,7 @@ export default function Home({ repos }) {
             onChange={handleSearch}
           />
           {displayedRepos
-            ? displayedRepos.map((repo) => <RepoCard repo={repo} />)
+            ? displayedRepos.map((repo, index) => <RepoCard repo={repo} key={index} />)
             : false}
         </div>
       </main>
