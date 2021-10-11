@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import RepoHeader from "../components/RepoHeader";
 import LineGraph from "../components/LineGraph";
+import { OptionButton } from "../components/OptionButton";
 
 export async function getStaticPaths() {
     return {
@@ -61,6 +62,8 @@ export async function getStaticProps({ params }) {
 
     export default function RepoStatPage({ repoData, issues, forks }) {
     const [displayedData, setDisplayedData] = useState(repoData);
+    const [activeGraph, setActiveGraph] = useState("all");
+
     useEffect(() => {
         if (repoData) {
             setDisplayedData(repoData);
@@ -80,32 +83,42 @@ export async function getStaticProps({ params }) {
 
         <main className={styles.main}>
             <Link href="/">
-            <p className={styles.choose_repo}>Choose another repository</p>
+                <p className={styles.choose_repo}>Choose another repository</p>
             </Link>
 
             <RepoHeader data={displayedData} />
 
             <div className={styles.option_container}>
-            <p
-                className={styles.data_option}
-                style={{ backgroundColor: "#C2DEFB" }}
-            >
-                Open issues
-            </p>
-            <p
-                className={styles.data_option}
-                style={{ backgroundColor: "#FFCCB6" }}
-            >
-                Forks
-            </p>
+                <OptionButton 
+                    title="Show all"
+                    optionName="all"
+                    bgColor="#eaeaea"
+                    state={activeGraph}
+                    setState={setActiveGraph}
+                />
+                <OptionButton 
+                    title="Open issues"
+                    optionName="issues"
+                    bgColor="#C2DEFB"
+                    state={activeGraph}
+                    setState={setActiveGraph}
+                />
+                <OptionButton 
+                    title="Forks"
+                    optionName="forks"
+                    bgColor="#FFCCB6"
+                    state={activeGraph}
+                    setState={setActiveGraph}
+                />
             </div>
 
             <div className={styles.graph_container}>
-            <LineGraph
-                repoData={repoData}
-                issues={issues}
-                forks={forks}
-            />
+                <LineGraph
+                    repoData={repoData}
+                    issues={issues}
+                    forks={forks}
+                    activeGraph={activeGraph}
+                />
             </div>
         </main>
         </div>

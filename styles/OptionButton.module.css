@@ -1,0 +1,25 @@
+.data_option {
+    width: 130px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--button-text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 5px 14px;
+    margin-right: 7px;
+    cursor: pointer;
+}
+
+.selected_option {
+    box-sizing: border-box;
+    width: 130px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--button-text-color);
+    border: 2px solid black;
+    border-radius: 14px;
+    padding: 5px 14px;
+    margin-right: 7px;
+}
