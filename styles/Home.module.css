@@ -2,7 +2,7 @@
   margin: 0;
   line-height: 1.15;
   font-size: 50px;
-  color: #4A4A4A;
+  color: var(--title-color);
 }
 
 .title,
@@ -12,19 +12,19 @@
 
 .subtitle {
   font-size: 32px;
-  color: #4A4A4A;
+  color: var(--title-color);
 }
 
 .description {
   line-height: 1.5;
   font-size: 20px;
-  color: #8C8C8C;
+  color: var(--subtitle-color);
 }
 
 .search_bar {
   padding: 0.5rem;
   margin-bottom: 20px;
-  border: 1px solid #eaeaea;
+  border: 1px solid var(--border-color);
   width: 100%;
   border-radius: 20px;
 }

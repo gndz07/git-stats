@@ -6,7 +6,7 @@
 
 .repo_name {
     font-size: 50px;
-    color: #4A4A4A;
+    color: var(--title-color);
     font-weight: 700;
     margin-left: 20px;
 }
@@ -14,13 +14,13 @@
 .avatar {
     height: 80px;
     object-fit: cover;
-    border: 1px solid #eaeaea;
+    border: 1px solid var(--border-color);
     border-radius: 14px;
     background-color: white;
 }
 
 .description {
-    color: #8C8C8C;
+    color: var(--subtitle-color);
     font-size: 20px;
     margin: 0 0 20px 0;
 }

@@ -14,3 +14,13 @@ a {
 * {
   box-sizing: border-box;
 }
+
+:root {
+  --main-bg-color: #FBFBFB;
+  --card-bg-color: white;
+  --title-color:  #4A4A4A;
+  --subtitle-color: #8C8C8C;
+  --border-color: #eaeaea;
+  --hover-color: #6786D3;
+  --button-text-color: #604B69;
+}
