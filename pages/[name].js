@@ -1,10 +1,9 @@
 import Head from "next/head";
 import containerStyles from "../styles/Container.module.css";
 import styles from "../styles/RepoPage.module.css";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import RepoHeader from "../components/RepoHeader";
-import { range, mergeData, formatDataByYear } from "../libs";
 import LineGraph from "../components/LineGraph";
 
 export async function getStaticPaths() {
@@ -32,6 +31,7 @@ export async function getStaticProps({ params }) {
         const collaborators = await collaboratorsRes.json()
         */
 
+        
     const issuesRes = await fetch(
         `https://api.github.com/repos/${process.env.REPO_USERNAME}/${params.name}/issues?per_page=100`,
         { headers: myHeaders }
@@ -61,55 +61,11 @@ export async function getStaticProps({ params }) {
 
     export default function RepoStatPage({ repoData, issues, forks }) {
     const [displayedData, setDisplayedData] = useState(repoData);
-    const startYear = useMemo(() => {
-        if (repoData) {
-            return repoData?.created_at.split("-").slice(0, 1);
-        }
-    }, [repoData]);
-
-    const todayDate = new Date();
-    const thisYear = Number(todayDate.getFullYear());
-    //set a base array of objects to keep the data
-    let baseData = useMemo(() => {
-        const years = range(Number(startYear), thisYear, 1);
-        return years.map((year) => ({ year, issues: 0, forks: 0 }));
-    }, [startYear]);
-
     useEffect(() => {
         if (repoData) {
             setDisplayedData(repoData);
         }
     }, [repoData]);
-
-    const issuesData = useMemo(() => {
-        if (issues) {
-        const filteredIssues = issues
-            .filter((issue) => {
-                return issue.state === "open";
-            })
-            .reverse();
-
-        return formatDataByYear(filteredIssues);
-        }
-    }, [issues]);
-
-    const forksData = useMemo(() => {
-        if (forks) {
-            return formatDataByYear(forks.reverse());
-        }
-    }, [forks]);
-
-    useEffect(() => {
-        if (repoData) {
-            mergeData(baseData, "issues", issuesData);
-        }
-    }, [issuesData]);
-
-    useEffect(() => {
-        if (repoData) {
-            mergeData(baseData, "forks", forksData);
-        }
-    }, [forksData]);
 
     return (
         <div className={containerStyles.container}>
@@ -146,9 +102,9 @@ export async function getStaticProps({ params }) {
 
             <div className={styles.graph_container}>
             <LineGraph
-                data={baseData}
-                startYear={startYear}
-                thisYear={thisYear}
+                repoData={repoData}
+                issues={issues}
+                forks={forks}
             />
             </div>
         </main>
