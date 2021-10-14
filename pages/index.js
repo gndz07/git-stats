@@ -5,7 +5,7 @@ import { useState } from "react";
 import RepoCard from "../components/RepoCard";
 import en from "../lang/en";
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let myHeaders = new Headers();
   myHeaders.append("Authorization", `token ${process.env.API_TOKEN}`);
 

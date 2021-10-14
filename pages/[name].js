@@ -8,14 +8,7 @@ import LineGraph from "../components/LineGraph";
 import { OptionButton } from "../components/OptionButton";
 import en from "../lang/en";
 
-export async function getStaticPaths() {
-    return {
-    paths: [],
-    fallback: true,
-    };
-}
-
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
     let myHeaders = new Headers();
     myHeaders.append("Authorization", `token ${process.env.API_TOKEN}`);
 
